@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: 2026_Silver_Residence
+
+  mongodb:
+    uri: mongodb://localhost:27017
+    database: Silver
