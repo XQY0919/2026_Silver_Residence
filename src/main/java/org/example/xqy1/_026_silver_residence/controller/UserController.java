@@ -9,6 +9,8 @@ import org.example.xqy1._026_silver_residence.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequestMapping("/user")
@@ -39,10 +41,12 @@ public class UserController {
      * @return
      */
     @PostMapping("/login")
-    public Result<User> login() {
+    public Result<User> login(@RequestBody User user) {
+        log.info("用户登录{}", user);
 
+        User users = userService.login(user);
 
-        return Result.success();
+        return Result.success(users);
     }
 
     /**
