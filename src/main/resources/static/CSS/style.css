@@ -1,0 +1,217 @@
+/* 全局样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Microsoft YaHei', 'Inter', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8f9fa;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 背景装饰 */
+.bg-decor {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.2;
+    z-index: -1;
+}
+
+.bg-decor-1 {
+    width: 400px;
+    height: 400px;
+    background: #FFD5C2;
+    top: -100px;
+    left: -100px;
+}
+
+.bg-decor-2 {
+    width: 500px;
+    height: 500px;
+    background: #D4C2FF;
+    bottom: -150px;
+    right: -100px;
+}
+
+.bg-decor-3 {
+    width: 350px;
+    height: 350px;
+    background: #C2E0FF;
+    top: 50%;
+    right: 10%;
+    transform: translateY(-50%);
+}
+
+/* 玻璃卡片容器 */
+.glass-card {
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 0.5px solid rgba(255, 255, 255, 0.4);
+    border-radius: 32px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+    padding: 40px;
+    width: 100%;
+    max-width: 480px;
+    animation: cardFadeIn 0.8s ease-out forwards;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+@keyframes cardFadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 标题 */
+.title {
+    font-size: 34px;
+    font-weight: 600;
+    color: #1E1E2F;
+    margin-bottom: 32px;
+    text-align: center;
+}
+
+/* 表单 */
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* 输入框容器 */
+.input-container {
+    position: relative;
+}
+
+/* 输入框标签 */
+.input-label {
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    font-size: 18px;
+    font-weight: 500;
+    color: rgba(30, 30, 47, 0.8);
+    transition: all 0.2s ease;
+    pointer-events: none;
+}
+
+/* 输入框 */
+.input {
+    width: 100%;
+    height: 56px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 0 20px;
+    font-size: 18px;
+    color: #1E1E2F;
+    transition: all 0.2s ease;
+}
+
+.input:focus {
+    outline: none;
+    border-color: #FF8A7A;
+    box-shadow: 0 0 0 4px rgba(255, 138, 122, 0.2);
+}
+
+/* 输入框有内容时的标签样式 */
+.input-container.has-content .input-label {
+    top: 12px;
+    font-size: 14px;
+    color: rgba(30, 30, 47, 0.6);
+}
+
+/* 链接容器 */
+.links {
+    display: flex;
+    justify-content: space-between;
+    margin: 8px 0 32px;
+}
+
+/* 链接文字 */
+.link {
+    font-size: 18px;
+    font-weight: 500;
+    color: #5A5A89;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.link:hover {
+    color: #FF8A7A;
+}
+
+/* 错误信息 */
+.error-message {
+    background: rgba(255, 99, 71, 0.1);
+    border: 1px solid rgba(255, 99, 71, 0.3);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 24px;
+    color: #ff4500;
+    font-size: 16px;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 登录按钮 */
+.login-btn {
+    width: 100%;
+    height: 60px;
+    border-radius: 30px;
+    background: #FF8A7A;
+    border: none;
+    font-size: 20px;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.login-btn:hover:not(:disabled) {
+    transform: scale(1.02);
+    box-shadow: 0 6px 12px rgba(255, 138, 122, 0.4);
+}
+
+.login-btn:active:not(:disabled) {
+    transform: scale(0.98);
+}
+
+.login-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .glass-card {
+        margin: 0 20px;
+        padding: 32px;
+    }
+    
+    .title {
+        font-size: 28px;
+    }
+}
