@@ -186,6 +186,7 @@
             chatContainer.appendChild(messageDiv);
             // 滚动到底部
             chatContainer.scrollTop = chatContainer.scrollHeight;
+            return messageDiv;
         }
         
         // 添加加载状态
@@ -194,7 +195,7 @@
             loadingDiv.className = 'message ai-message loading';
             loadingDiv.id = 'loadingIndicator';
             loadingDiv.innerHTML = `
-                <span>AI正在思考</span>
+                <span>AI正在回复</span>
                 <div class="loading-dot"></div>
                 <div class="loading-dot"></div>
                 <div class="loading-dot"></div>
@@ -224,20 +225,45 @@
             addLoading();
             
             try {
-                // 调用AI接口
+                // 调用AI接口，使用流式处理
                 const response = await fetch('http://localhost:8080/ai/chat', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'text/plain'
                     },
-                    body: JSON.stringify({ message })
+                    body: message // 添加/no_think参数取消思考模式
                 });
                 
-                const data = await response.json();
                 // 移除加载状态
                 removeLoading();
-                // 添加AI响应
-                addMessage(data.response);
+                
+                // 创建AI消息元素
+                const aiMessageDiv = addMessage('');
+                
+                // 处理流式响应
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+                    
+                    // 解码并处理数据
+                    const chunk = decoder.decode(value, { stream: true });
+                    // 处理SSE格式的消息，移除"data: "前缀和换行符
+                    const lines = chunk.split('\n');
+                    for (const line of lines) {
+                        if (line.startsWith('data: ')) {
+                            const content = line.substring(6).trim();
+                            if (content) {
+                                aiMessageDiv.textContent += content;
+                                // 滚动到底部
+                                chatContainer.scrollTop = chatContainer.scrollHeight;
+                            }
+                        }
+                    }
+                }
+                
             } catch (error) {
                 console.error('发送消息失败:', error);
                 removeLoading();
